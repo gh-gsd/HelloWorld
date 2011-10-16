@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!-- HelloWorld.scalaをコンパイルしてjarを作成するbuild.xml
+環境に合わせてScala-homeを変更してください。 -->
+
 <project default="create-jar" basedir=".">
 
   <!-- Scala-home （環境に合わせて要変更） -->
-  <property name="scala-home" value="/home/ota/lib/scala" />
+  <property name="scala-home" value="path/for/scala" />
 
   <!-- Target Program Name -->
   <property name="target" value="HelloWorld" />
