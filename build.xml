@@ -52,11 +52,8 @@
 
   <!-- Create Jarfile -->
   <target name="create-jar" depends="build">
-    <delete>
-      <fileset dir="${bin.dir}" includes="**/*.jar" />
-    </delete>
     <property name="target.jar" value="${target}.jar" />
-    <jar destfile="${bin.dir}/${target.jar}" filesetmanifest="mergewithoutmain">
+    <jar destfile="${bin.dir}/${target.jar}" update="true" filesetmanifest="mergewithoutmain">
       <manifest>
         <attribute name="Main-Class" value="${target}" />
         <attribute name="Class-Path" value="." />
