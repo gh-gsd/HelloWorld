@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create-jar" basedir=".">
+
+  <!-- Scala-home （環境に合わせて要変更） -->
+  <property name="scala-home" value="/home/ota/lib/scala" />
+
+  <!-- Target Program Name -->
+  <property name="target" value="HelloWorld" />
+
+  <!-- Project-Home -->
+  <property name="project-home" value="." />
+
+  <!-- Binaries Directory -->
+  <property name="bin.dir" value="${project-home}/bin" />
+
+  <!-- Source Directory -->
+  <property name="src.dir" value="${project-home}/src" />
+
+  <!-- Build Directory -->
+  <property name="build.dir" value="${project-home}/classes" />
+
+  <!-- Scala library -->
+  <property name="target.jar" value="${target}.jar" />
+  <property name="scala.lib" value="${scala-home}/lib/scala-library.jar" />
+
+  <!-- Define scalac-->
+  <target name="init">
+    <taskdef resource="scala/tools/ant/antlib.xml">
+    <classpath>
+      <pathelement location="${scala-home}/lib/scala-compiler.jar" />
+      <pathelement location="${scala.lib}" />
+    </classpath>
+    </taskdef>
+  </target>
+
+  <!-- Build with scalac -->
+  <target name="build" depends="init">
+    <delete>
+      <fileset dir="${build.dir}" includes="**/*.class" />
+    </delete>
+    <scalac srcdir="${src.dir}" destdir="${build.dir}">
+      <classpath>
+        <pathelement location="${scala.lib}" />
+        <pathelement location="${build.dir}" />
+      </classpath>
+    </scalac>
+  </target>
+
+  <!-- Create Jarfile -->
+  <target name="create-jar" depends="build">
+    <delete>
+      <fileset dir="${bin.dir}" includes="**/*.jar" />
+    </delete>
+    <property name="target.jar" value="${target}.jar" />
+    <jar destfile="${bin.dir}/${target.jar}" filesetmanifest="mergewithoutmain">
+      <manifest>
+        <attribute name="Main-Class" value="${target}" />
+        <attribute name="Class-Path" value="." />
+      </manifest>
+      <fileset dir="${build.dir}" />
+      <zipfileset src="${scala.lib}" excludes="META-INF/*.SF,library.properties" />
+    </jar>
+  </target>
+</project>
